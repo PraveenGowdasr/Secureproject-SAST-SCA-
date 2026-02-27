@@ -36,3 +36,11 @@ jobs:
           image-ref: secure-app
           severity: CRITICAL
           exit-code: 1
+      - name: Login to DockerHub
+        run: echo "${{ secrets.DOCKER_PASS }}" | docker login -u "${{ secrets.DOCKER_USER }}" --password-stdin
+
+      - name: Tag Docker Image
+        run: docker tag secure-app ${{ secrets.DOCKER_USER }}/secure-devsecops-app:latest
+
+      - name: Push Docker Image
+        run: docker push ${{ secrets.DOCKER_USER }}/secure-devsecops-app:latest
